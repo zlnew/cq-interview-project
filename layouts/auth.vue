@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <main class="container mx-auto flex h-dvh items-center justify-center">
     <slot />
-  </div>
+  </main>
 </template>

@@ -12,21 +12,56 @@ useServerSeoMeta({
 
 const authStore = useAuthStore()
 
-onMounted(() => {
-  getUser()
-})
+const userId = ref<number>()
+const authenticating = ref(false)
 
-const getUser = async () => {
+const { error } = useInputValidator(userId)
+
+const authenticate = async () => {
+  if (!userId.value) {
+    return
+  }
+
+  authenticating.value = true
+
   try {
-    const user = await $fetch('/api/auth/1')
+    const user = await $fetch(`/api/auth/${userId.value}`)
     authStore.saveUserInfo(user)
+    navigateTo('/dashboard')
   } catch (error) {
     const fetchError = error as Error
     console.error(fetchError.message)
+  } finally {
+    authenticating.value = false
   }
 }
 </script>
 
 <template>
-  <div>Login</div>
+  <div class="w-full md:max-w-sm">
+    <form
+      class="flex flex-col gap-4"
+      @submit.prevent="authenticate"
+    >
+      <UInput
+        v-model="userId"
+        type="number"
+        label="User ID"
+        placeholder="Enter your user ID"
+        required
+        :disabled="authenticating"
+        :error="error"
+      >
+        <template #label>{{ `The User ID: ${userId || ''}` }}</template>
+      </UInput>
+
+      <button
+        type="submit"
+        class="flex h-10 items-center justify-center rounded bg-blue-700 text-white transition disabled:opacity-50"
+        :disabled="authenticating || !!error"
+      >
+        Login
+      </button>
+    </form>
+  </div>
 </template>

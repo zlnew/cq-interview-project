@@ -6,18 +6,23 @@ export default defineEventHandler(async (event) => {
     return
   }
 
+  const abort = () => {
+    setCookie(event, 'user_id', '')
+    return sendRedirect(event, '/')
+  }
+
   const userId = getCookie(event, 'user_id')
   if (!userId) {
-    return sendRedirect(event, '/')
+    return abort()
   }
 
   try {
     const { data } = await api.get(`users/${userId}`)
 
     if (!data) {
-      return sendRedirect(event, '/')
+      throw new Error('User not exists')
     }
   } catch {
-    return sendRedirect(event, '/')
+    return abort()
   }
 })
