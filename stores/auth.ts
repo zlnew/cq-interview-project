@@ -9,16 +9,10 @@ const useAuthStore = defineStore('auth', () => {
     user.value = userData
   }
 
-  const logout = () => {
-    userId.value = ''
-    user.value = undefined
-  }
-
   return {
     userId,
     user,
-    saveUserInfo,
-    logout
+    saveUserInfo
   }
 })
 

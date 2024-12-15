@@ -2,6 +2,7 @@
 import useAuthStore from '~/stores/auth'
 
 definePageMeta({
+  name: 'login',
   middleware: ['guest'],
   layout: 'auth'
 })
@@ -27,7 +28,7 @@ const authenticate = async () => {
   try {
     const user = await $fetch(`/api/auth/${userId.value}`)
     authStore.saveUserInfo(user)
-    navigateTo('/dashboard')
+    navigateTo({ name: 'dashboard' })
   } catch (error) {
     const fetchError = error as Error
     console.error(fetchError.message)

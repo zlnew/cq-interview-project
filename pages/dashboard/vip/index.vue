@@ -1,5 +1,6 @@
 <script setup lang="ts">
 definePageMeta({
+  name: 'vip',
   middleware: ['vip']
 })
 
@@ -9,5 +10,8 @@ useServerSeoMeta({
 </script>
 
 <template>
-  <div>VIP</div>
+  <div class="text-center font-bold text-red-500">
+    <div class="text-4xl">👑</div>
+    <div class="text-4xl">Welcome Back VIP</div>
+  </div>
 </template>
