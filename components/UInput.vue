@@ -35,7 +35,7 @@ const model = defineModel<string | number>()
       :required="required"
       :autocomplete="autocomplete"
       class="w-full rounded"
-    >
+    />
     <div
       v-if="error"
       class="text-red-500"
